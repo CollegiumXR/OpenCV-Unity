@@ -1,0 +1,18 @@
+{
+  __dfsan_*;
+  __dfsw_*;
+  __interceptor_mmap;
+  __interceptor_mmap64;
+  __sanitizer_get_module_and_offset_for_pc;
+  __sanitizer_install_malloc_and_free_hooks;
+  __sanitizer_report_error_summary;
+  __sanitizer_sandbox_on_notify;
+  __sanitizer_set_death_callback;
+  __sanitizer_set_report_fd;
+  __sanitizer_set_report_path;
+  __sanitizer_symbolize_global;
+  __sanitizer_symbolize_pc;
+  dfsan_*;
+  mmap;
+  mmap64;
+};
