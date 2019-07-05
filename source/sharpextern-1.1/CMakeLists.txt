@@ -32,7 +32,7 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # OpenCV is a bit specific: it has different output folders for Windows, Android and iOS/Mac, so we have to "hint" all three
 find_package(OpenCV REQUIRED PATHS "${CMAKE_PREFIX_PATH}" "${CMAKE_PREFIX_PATH}/*/Shared/OpenCV" "${CMAKE_PREFIX_PATH}/*/sdk/native/jni" NO_DEFAULT_PATH )
-TestLibraryPath(${OpenCV_INSTALL_PATH} "OpenCV")
+# TestLibraryPath(${OpenCV_INSTALL_PATH} "OpenCV")
 
 # DLib
 # doan.dominh made some custom to make dlib link
