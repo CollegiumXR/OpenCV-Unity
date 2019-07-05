@@ -2,7 +2,8 @@
 
 set CMAKE_MAKE_PROGRAM=Y:\MinGW\bin\mingw32-make.exe
 set CMAKE_ANDROID_NDK=Y:\android-ndk-r10e
-set ANDROID_ABI=x86
+REM armeabi-v7a | x86 | arm64-v8a | x86_64
+set ANDROID_ABI=armeabi-v7a
 
 
 set PROJECT_PATH=%~dp0
