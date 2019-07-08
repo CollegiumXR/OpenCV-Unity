@@ -19,7 +19,7 @@ CVAPI(void) aruco_drawDetectedMarkers(
     int *cornerSize2,
     int *idx, int idxCount, MyCvScalar borderColor)
 {
-    std::vector<std::vector<cv::Point2f>> cornerVec(cornerSize1);
+    std::vector< std::vector<cv::Point2f> > cornerVec(cornerSize1);
     std::vector<int> idxVec;
 
     for (int i = 0; i < cornerSize1; i++)
@@ -37,22 +37,23 @@ CVAPI(void) aruco_drawMarker(cv::Ptr<cv::aruco::Dictionary> *dictionary, int id,
 
 CVAPI(void) aruco_detectMarkers(cv::_InputArray *image, 
     cv::Ptr<cv::aruco::Dictionary> *dictionary, 
-    std::vector<std::vector<cv::Point2f>> *corners,
+    std::vector< std::vector<cv::Point2f> > *corners,
     std::vector<int> *ids, 
     cv::Ptr<cv::aruco::DetectorParameters> *parameters,
-    std::vector<std::vector<cv::Point2f>> *rejectedImgPoints)
+    std::vector< std::vector<cv::Point2f> > *rejectedImgPoints)
 {
-    //*corners = new std::vector<std::vector<cv::Point2f>>();
-    //*ids = new std::vector<int>();
-    //*rejectedImgPoints = new std::vector<std::vector<cv::Point2f>>();
     cv::aruco::detectMarkers(*image, *dictionary, *corners, *ids, *parameters, *rejectedImgPoints);
 }
 
-CVAPI(void) aruco_estimatePoseSingleMarkers(cv::_InputArray *corners, float markerLength,
+CVAPI(void) aruco_estimatePoseSingleMarkers(cv::Point2f **corners, int cornersLength1, int *cornersLengths2, float markerLength,
     cv::_InputArray *cameraMatrix, cv::_InputArray *distCoeffs,
-    cv::_OutputArray *rvecs, cv::_OutputArray *tvecs)
+    cv::_OutputArray *rvecs, cv::_OutputArray *tvecs, cv::_OutputArray *objPoints)
 {
-    cv::aruco::estimatePoseSingleMarkers(*corners, markerLength, *cameraMatrix, *distCoeffs, *rvecs, *tvecs);
+    std::vector<std::vector<cv::Point2f> > cornersVec(cornersLength1);
+    for (int i = 0; i < cornersLength1; i++)    
+        cornersVec[i] = std::vector<cv::Point2f>(corners[i], corners[i] + cornersLengths2[i]);    
+
+    cv::aruco::estimatePoseSingleMarkers(cornersVec, markerLength, *cameraMatrix, *distCoeffs, *rvecs, *tvecs, entity(objPoints));
 }
 
 CVAPI(cv::Ptr<cv::aruco::Dictionary>*) aruco_getPredefinedDictionary(cv::aruco::PREDEFINED_DICTIONARY_NAME name)
@@ -112,9 +113,9 @@ CVAPI(void) aruco_DetectorParameters_setMinMarkerDistanceRate(cv::aruco::Detecto
 {
     obj->minMarkerDistanceRate = value;
 }
-CVAPI(void) aruco_DetectorParameters_setDoCornerRefinement(cv::aruco::DetectorParameters *obj, bool value)
+CVAPI(void) aruco_DetectorParameters_setCornerRefinementMethod(cv::aruco::DetectorParameters *obj, int value)
 {
-    obj->doCornerRefinement = value;
+    obj->cornerRefinementMethod = value;
 }
 CVAPI(void) aruco_DetectorParameters_setCornerRefinementWinSize(cv::aruco::DetectorParameters *obj, int value)
 {
@@ -192,9 +193,9 @@ CVAPI(double) aruco_DetectorParameters_getMinMarkerDistanceRate(cv::aruco::Detec
 {
     return obj->minMarkerDistanceRate;
 }
-CVAPI(bool) aruco_DetectorParameters_getDoCornerRefinement(cv::aruco::DetectorParameters *obj)
+CVAPI(int) aruco_DetectorParameters_getCornerRefinementMethod(cv::aruco::DetectorParameters *obj)
 {
-    return obj->doCornerRefinement;
+    return obj->cornerRefinementMethod;
 }
 CVAPI(int) aruco_DetectorParameters_getCornerRefinementWinSize(cv::aruco::DetectorParameters *obj)
 {
@@ -261,25 +262,6 @@ CVAPI(int) aruco_Dictionary_getMarkerSize(cv::aruco::Dictionary *obj)
 CVAPI(int) aruco_Dictionary_getMaxCorrectionBits(cv::aruco::Dictionary *obj)
 {
     return obj->maxCorrectionBits;
-}
-
-
-CVAPI(void) aruco_drawAxis(cv::_InputOutputArray *image, 
-    cv::Mat* cameraMatrix,
-    double *distCoeffs, int distCoeffsLength,
-    double *rvec, double *tvec,
-    float length    
-)
-{
-    cv::Mat distCoeffsMat;
-    if (distCoeffs != NULL) {
-        distCoeffsMat = cv::Mat(distCoeffsLength, 1, cv::DataType<double>::type, distCoeffs);
-    }
-
-    cv::Mat rvecM(3, 1, cv::DataType<double>::type, rvec);
-    cv::Mat tvecM(3, 1, cv::DataType<double>::type, tvec);
-
-    cv::aruco::drawAxis(*image, *cameraMatrix, distCoeffsMat, rvecM, tvecM, length);
 }
 
 #endif

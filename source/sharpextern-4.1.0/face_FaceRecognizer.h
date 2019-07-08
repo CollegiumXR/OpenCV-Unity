@@ -16,7 +16,6 @@ CVAPI(void) face_FaceRecognizer_train(
     std::vector<int> labelsVec(labels, labels + labelsLength);
     obj->train(srcVec, labelsVec);
 }
-
 CVAPI(void) face_FaceRecognizer_update(
     FaceRecognizer *obj, cv::Mat **src, int srcLength, int *labels, int labelsLength)
 {
@@ -26,43 +25,36 @@ CVAPI(void) face_FaceRecognizer_update(
     std::vector<int> labelsVec(labels, labels + labelsLength);
     obj->update(srcVec, labelsVec);
 }
-
 CVAPI(int) face_FaceRecognizer_predict1(FaceRecognizer *obj, cv::_InputArray *src)
 {
     return obj->predict(*src);
 }
-
 CVAPI(void) face_FaceRecognizer_predict2(
     FaceRecognizer *obj, cv::_InputArray *src, int *label, double *confidence)
 {
     obj->predict(*src, *label, *confidence);
 }
-
-CVAPI(void) face_FaceRecognizer_save1(FaceRecognizer *obj, const char *filename)
+CVAPI(void) face_FaceRecognizer_write1(FaceRecognizer *obj, const char *filename)
 {
-    obj->save(filename);
+    obj->write(filename);
 }
-
-CVAPI(void) face_FaceRecognizer_load1(FaceRecognizer *obj, const char *filename)
+CVAPI(void) face_FaceRecognizer_read1(FaceRecognizer *obj, const char *filename)
 {
-    obj->load(filename);
+    obj->read(filename);
 }
-
-CVAPI(void) face_FaceRecognizer_save2(FaceRecognizer *obj, cv::FileStorage *fs)
+CVAPI(void) face_FaceRecognizer_write2(FaceRecognizer *obj, cv::FileStorage *fs)
 {
-    obj->save(*fs);
+    obj->write(*fs);
 }
-
-CVAPI(void) face_FaceRecognizer_load2(FaceRecognizer *obj, cv::FileStorage *fs)
+CVAPI(void) face_FaceRecognizer_read2(FaceRecognizer *obj, cv::FileNode *fn)
 {
-    obj->load(*fs);
+    obj->read(*fn);
 }
 
 CVAPI(void) face_FaceRecognizer_setLabelInfo(FaceRecognizer *obj, int label, const char *strInfo)
 {
     obj->setLabelInfo(label, strInfo);
 }
-
 CVAPI(void) face_FaceRecognizer_getLabelInfo(FaceRecognizer *obj, int label, std::vector<uchar> *dst)
 {
     cv::String result = obj->getLabelInfo(label);
@@ -83,6 +75,16 @@ CVAPI(double) face_FaceRecognizer_getThreshold(FaceRecognizer *obj)
 CVAPI(void) face_FaceRecognizer_setThreshold(FaceRecognizer *obj, double val)
 {
     obj->setThreshold(val);
+}
+
+
+CVAPI(FaceRecognizer*) face_Ptr_FaceRecognizer_get(cv::Ptr<FaceRecognizer> *obj)
+{
+    return obj->get();
+}
+CVAPI(void) face_Ptr_FaceRecognizer_delete(cv::Ptr<FaceRecognizer> *obj)
+{
+    delete obj;
 }
 
 #endif

@@ -21,6 +21,13 @@ CVAPI(int) imgcodecs_imwrite(const char *filename, cv::Mat *img, int *params, in
     return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
 }
 
+CVAPI(int) imgcodecs_imwrite_multi(const char *filename, std::vector<cv::Mat> *img, int *params, int paramsLength)
+{
+    std::vector<int> paramsVec;
+    paramsVec.assign(params, params + paramsLength);
+    return cv::imwrite(filename, *img, paramsVec) ? 1 : 0;
+}
+
 CVAPI(cv::Mat*) imgcodecs_imdecode_Mat(cv::Mat *buf, int flags)
 {
     cv::Mat ret = cv::imdecode(*buf, flags);
@@ -49,25 +56,14 @@ CVAPI(int) imgcodecs_imencode_vector(const char *ext, cv::_InputArray *img,
 
 
 
-CVAPI(void) imgcodecs_cvConvertImage_CvArr(CvArr *src, CvArr *dst, int flags)
+CVAPI(int) imgcodecs_haveImageReader(const char *filename)
 {
-	cvConvertImage(src, dst, flags);
-}
-CVAPI(void) imgcodecs_cvConvertImage_Mat(cv::Mat *src, cv::Mat *dst, int flags)
-{
-	IplImage srcImg = (IplImage)*src;
-	IplImage dstImg = (IplImage)*dst;
-	cvConvertImage(&srcImg, &dstImg, flags);
+    return cv::haveImageReader(filename);
 }
 
-CVAPI(int) imgcodecs_cvHaveImageReader(const char *filename)
+CVAPI(int) imgcodecs_haveImageWriter(const char *filename)
 {
-	return cvHaveImageReader(filename);
-}
-
-CVAPI(int) imgcodecs_cvHaveImageWriter(const char *filename)
-{
-	return cvHaveImageWriter(filename);
+    return cv::haveImageWriter(filename);
 }
 
 #endif

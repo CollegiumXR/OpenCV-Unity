@@ -57,14 +57,17 @@ set(OPENCVSHARP_FILES
 	bgsegm.cpp
 	calib3d.cpp
 	core.cpp
+	dnn.cpp
 	cuda.cpp
 	dlib.cpp
+	dnn.cpp
 	face.cpp
 	features2d.cpp
 	flann.cpp
 	highgui.cpp
 	imgproc.cpp
 	imgcodecs.cpp
+	img_hash.cpp
 	ml.cpp
 	objdetect.cpp
 	optflow.cpp
@@ -78,6 +81,7 @@ set(OPENCVSHARP_FILES
 	video.cpp
 	videoio.cpp
 	xfeatures2d.cpp
+	ximgproc.cpp
 	xphoto.cpp
 	utils.cpp
 )

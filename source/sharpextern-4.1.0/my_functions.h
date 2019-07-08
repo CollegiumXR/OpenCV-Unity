@@ -3,6 +3,11 @@
 #ifndef _MY_FUNCTIONS_H_
 #define _MY_FUNCTIONS_H_
 
+#ifdef _WIN32
+#pragma warning(disable: 4996) 
+#endif
+
+
 #include <opencv2/opencv.hpp>
 #include "my_types.h"
 
@@ -20,10 +25,7 @@ static int p(T obj, const std::string &caption = "MessageBox")
     ss << obj;
     return p(ss.str().c_str(), caption.c_str());
 }
-#undef min
-#undef max
 #endif
-
 
 
 #if defined WIN32 || defined _WIN32
@@ -50,7 +52,7 @@ static cv::_OutputArray entity(cv::_OutputArray *obj)
 }
 static cv::_InputOutputArray entity(cv::_InputOutputArray *obj)
 {
-	return (obj != NULL) ? *obj : cv::noArray();
+    return (obj != NULL) ? *obj : cv::noArray();
 }
 static cv::Mat entity(cv::Mat *obj)
 {
@@ -58,15 +60,15 @@ static cv::Mat entity(cv::Mat *obj)
 }
 static cv::SparseMat entity(cv::SparseMat *obj)
 {
-	return (obj != NULL) ? *obj : cv::SparseMat();
+    return (obj != NULL) ? *obj : cv::SparseMat();
 }
 static cv::cuda::GpuMat entity(cv::cuda::GpuMat *obj)
 {
-	return (obj != NULL) ? *obj : cv::cuda::GpuMat();
+    return (obj != NULL) ? *obj : cv::cuda::GpuMat();
 }
 static cv::cuda::Stream entity(cv::cuda::Stream *obj)
 {
-	return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
+    return (obj != NULL) ? *obj : cv::cuda::Stream::Null();
 }
 
 template <typename T>
@@ -77,24 +79,19 @@ static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
 
 static void copyString(const char *src, char *dst, int dstLength)
 {
-	if (strlen(src) == 0)
-		std::strncpy(dst, "", dstLength - 1);
-	else
-		std::strncpy(dst, src, dstLength - 1);
+    size_t length = (size_t)std::max(0, dstLength - 1);
+    if (strlen(src) == 0)
+        std::strncpy(dst, "", length);
+    else
+        std::strncpy(dst, src, length);
 }
 static void copyString(const std::string &src, char *dst, int dstLength)
 {
+    size_t length = (size_t)std::max(0, dstLength - 1);
     if (src.empty())
-        std::strncpy(dst, "", dstLength - 1);
+        std::strncpy(dst, "", length);
     else
-        std::strncpy(dst, src.c_str(), dstLength - 1);
-}
-static void copyString(const cv::String &src, char *dst, int dstLength)
-{
-	if (src.empty())
-		std::strncpy(dst, "", dstLength - 1);
-	else
-		std::strncpy(dst, src.c_str(), dstLength - 1);
+        std::strncpy(dst, src.c_str(), length);
 }
 
 template <typename T>
@@ -113,7 +110,17 @@ static void dump(T *obj, const std::string &outFile)
 }
 
 static void toVec(
-    cv::Mat **inPtr, int size, std::vector<cv::Mat> &outVec)
+    const cv::Mat **inPtr, const int size, std::vector<cv::Mat> &outVec)
+{
+    outVec.resize(size);
+    for (int i = 0; i < size; i++)
+    {
+        outVec[i] = *inPtr[i];
+    }
+}
+
+static void toVec(
+    cv::Mat **inPtr, const int size, std::vector<cv::Mat> &outVec)
 {
     outVec.resize(size);
     for (int i = 0; i < size; i++)
@@ -124,14 +131,14 @@ static void toVec(
 
 template <typename TIn, typename TOut>
 static void toVec(
-    TIn **inPtr, int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
+	const TIn **inPtr, const int size1, const int *size2, std::vector<std::vector<TOut> > &outVec)
 {
     outVec.resize(size1);
     for (int i = 0; i < size1; i++)
     {
         int size = size2[i];
-		TIn *p = inPtr[i];
-		std::vector<TOut> v(p, p + size);
+		const TIn *p = inPtr[i];
+        std::vector<TOut> v(p, p + size);
         /*std::vector<cv::Rect> v(size);
         for (int j = 0; j < size; j++)
         {
