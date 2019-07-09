@@ -94,6 +94,12 @@ CVAPI(int) objdetect_CascadeClassifier_load(
     return obj->load(fileName) ? 1 : 0;
 }
 
+CVAPI(int) objdetect_CascadeClassifier_read(
+	cv::CascadeClassifier *obj, const cv::FileNode* node)
+{
+	return obj->read(*node) ? 1 : 0;
+}
+
 //CVAPI(int) objdetect_CascadeClassifier_read(const FileNode& node);
 
 CVAPI(void) objdetect_CascadeClassifier_detectMultiScale1(
