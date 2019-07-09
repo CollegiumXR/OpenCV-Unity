@@ -164,7 +164,7 @@ else
 		"windows" ) params="$params -DBUILD_WITH_STATIC_CRT=ON" ;;
 		"android" ) params="$params -DANDROID_ABI=$arch -DANDROID_STL=gnustl_static" ;;
 		# "ios" )		params="$params -DIOS_ARCH=$arch -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=\"7.0\"" ;;
-		"ios" )		params="$params -DIOS_ARCH=$arch -DCPU_BASELINE=DETECT -DCMAKE_C_FLAGS=-fembed-bitcode -DCMAKE_CXX_FLAGS=-fembed-bitcode -DCMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET=\"7.0\"" ;;
+		"ios" )		params="$params -DIOS_ARCH=$arch -DCPU_BASELINE=DETECT -DCMAKE_C_FLAGS=-fembed-bitcode -DCMAKE_CXX_FLAGS=-fembed-bitcode -DIPHONEOS_DEPLOYMENT_TARGET=\"7.0\"" ;;
 		"macos" )	params="$params -DCMAKE_OSX_ARCHITECTURES=\"$arch\" -DCMAKE_OSX_DEPLOYMENT_TARGET=\"10.10\"" ;;
 	esac
 
