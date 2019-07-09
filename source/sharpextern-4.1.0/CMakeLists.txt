@@ -24,10 +24,11 @@ if (BUILD_WITH_STATIC_CRT)
 endif()
 
 # C++ lib for Apple OS
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-if (APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
-endif()
+# set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+# if (APPLE)
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+# endif()
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # OpenCV is a bit specific: it has different output folders for Windows, Android and iOS/Mac, so we have to "hint" all three
@@ -41,7 +42,7 @@ find_package(OpenCV REQUIRED PATHS "${CMAKE_PREFIX_PATH}" "${CMAKE_PREFIX_PATH}/
 
 # DLib
 # doan.dominh made some custom to make dlib link
-find_package(dlib REQUIRED PATHS "${CMAKE_PREFIX_PATH}" NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
+# find_package(dlib REQUIRED PATHS "${CMAKE_PREFIX_PATH}" NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
 # TestLibraryPath(${dlib_INSTALL_PATH} "DLib")
 # MESSAGE ("*** DLIBS = ${dlib_LIBS} ***")
 # add_library(dlib STATIC IMPORTED)
@@ -59,7 +60,7 @@ set(OPENCVSHARP_FILES
 	core.cpp
 	dnn.cpp
 	cuda.cpp
-	dlib.cpp
+	# dlib.cpp
 	dnn.cpp
 	face.cpp
 	features2d.cpp
@@ -102,7 +103,8 @@ install(TARGETS OpenCvSharpExtern
         ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
 )
 
-target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} dlib::dlib)
+target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS})
+# target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} dlib::dlib)
 # target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} ${dlib_LIBS})
 # target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} dlib)
 
