@@ -14,6 +14,16 @@ DLIB_BUILD="$BASEDIR/_build_ios/DLib_$DLIB_VERSION_$IOS_ARCH"
 OPENCVEXTERN_BUILD="$BASEDIR/_build_ios/OpenCVExtern_$SHARPEXTERN_VERSION_$IOS_ARCH"
 CMAKE_TOOLCHAIN_FILE="$PROJECT_PATH/utils/toolchains/toolchain.ios.cmake"
 
+# this function help to execute some command as error-fatal
+function required {
+    "$@"
+    local status=$?
+    if [ $status -ne 0 ]; then
+        echo "FATAL ERROR: \"$@\" <-- command failed"
+        exit 1
+    fi
+}
+
 echo Building OpenCV...
 
 if [ ! -d "$OPENCV_BUILD" ]; then
