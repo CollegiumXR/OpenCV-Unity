@@ -76,7 +76,7 @@ set(OPENCVSHARP_FILES
 	shape.cpp
 	std_vector.cpp
 	stitching.cpp
-	superres.cpp
+	# superres.cpp
 	text.cpp
 	tracking.cpp
 	video.cpp

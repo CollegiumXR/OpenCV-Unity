@@ -20,8 +20,8 @@
 #include <opencv2/highgui/highgui_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 #include <opencv2/shape.hpp>
-#include <opencv2/superres.hpp>
-#include <opencv2/superres/optical_flow.hpp>
+// #include <opencv2/superres.hpp>
+// #include <opencv2/superres/optical_flow.hpp>
 #include <opencv2/stitching.hpp>
 #include <opencv2/video.hpp>
 
