@@ -32,12 +32,15 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # OpenCV is a bit specific: it has different output folders for Windows, Android and iOS/Mac, so we have to "hint" all three
 find_package(OpenCV REQUIRED PATHS "${CMAKE_PREFIX_PATH}" "${CMAKE_PREFIX_PATH}/*/Shared/OpenCV" "${CMAKE_PREFIX_PATH}/*/sdk/native/jni" NO_DEFAULT_PATH )
-TestLibraryPath(${OpenCV_INSTALL_PATH} "OpenCV")
+# TestLibraryPath(${OpenCV_INSTALL_PATH} "OpenCV")
 
 # DLib
+# doan.dominh made some custom to make dlib link
 find_package(dlib REQUIRED PATHS "${CMAKE_PREFIX_PATH}" NO_DEFAULT_PATH)
-TestLibraryPath(${dlib_INSTALL_PATH} "DLib")
-MESSAGE ("*** DLIBS = ${dlib_LIBS} ***")
+# TestLibraryPath(${dlib_INSTALL_PATH} "DLib")
+# MESSAGE ("*** DLIBS = ${dlib_LIBS} ***")
+add_library(dlib STATIC IMPORTED)
+set_property(TARGET dlib PROPERTY IMPORTED_LOCATION ${dlib_INSTALL_PATH}/lib/libdlib.a)
 
 # Include
 include_directories(${OpenCV_INCLUDE_DIRS} ${dlib_INCLUDE_DIRS})
@@ -89,7 +92,8 @@ install(TARGETS OpenCvSharpExtern
         ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
 )
 
-target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} ${dlib_LIBS})
+# target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} ${dlib_LIBS})
+target_link_libraries(OpenCvSharpExtern ${OpenCV_LIBS} dlib)
 
 if (CMAKE_WRAPPER_TRIAL_VERSION)
 	target_compile_definitions(OpenCvSharpExtern PRIVATE OPENCV_SHARP_TRIAL)
